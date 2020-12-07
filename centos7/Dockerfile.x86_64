@@ -1,0 +1,21 @@
+FROM centos:7
+
+SHELL ["/bin/bash", "-x", "-c"]
+ENV ARCH=x86_64
+ENV DIST=centos7
+
+RUN yum install -y centos-release-scl-rh && \
+    yum install -y devtoolset-8 wget curl patchelf vim-common fuse libfuse2 libtool autoconf automake zlib-devel libjpeg-devel libpng-devel nano git openssl-devel
+
+# the shell wrapper takes care of enabling devtoolset and running a shell properly
+# unfortunately this is the easiest and most solid workaround to the limitations of the scl command
+COPY entrypoint.sh /
+ENTRYPOINT ["/entrypoint.sh"]
+SHELL ["/entrypoint.sh", "bash", "-x", "-c"]
+
+# keep user ID in sync in and outside Docker image
+ARG UID
+RUN adduser --uid "$UID" build
+
+USER build
+CMD ["bash"]

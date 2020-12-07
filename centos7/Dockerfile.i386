@@ -1,0 +1,28 @@
+FROM i386/centos:7
+
+SHELL ["/bin/bash", "-x", "-c"]
+ENV ARCH=i386
+ENV DIST=centos7
+
+# during Docker build, yum doesn't detect it's an i386 environment on x86_64 machines, and tries to install x86_64 packages, which can't work
+# this little command fixes this
+RUN sed -i 's/$basearch/i386/g' /etc/yum.repos.d/CentOS-Base.repo
+
+# thanks CloudLinux, you're really helping us poor AppImage creators seeking for maximum compatibility by providing devtoolset i386 builds
+RUN yum install -y yum-utils && \
+    rpm --import https://repo.cloudlinux.com/cloudlinux/security/RPM-GPG-KEY-CloudLinux && \
+    yum-config-manager --add-repo https://www.repo.cloudlinux.com/cloudlinux/7/sclo/devtoolset-8/i386/ && \
+    yum install -y devtoolset-8 wget curl patchelf vim-common fuse libfuse2 libtool autoconf automake zlib-devel libjpeg-devel libpng-devel nano git openssl-devel
+
+# the shell wrapper takes care of enabling devtoolset and running a shell properly
+# unfortunately this is the easiest and most solid workaround to the limitations of the scl command
+COPY entrypoint.sh /
+ENTRYPOINT ["/entrypoint.sh"]
+SHELL ["/entrypoint.sh", "bash", "-x", "-c"]
+
+# keep user ID in sync in and outside Docker image
+ARG UID
+RUN adduser --uid "$UID" build
+
+USER build
+CMD ["bash"]
