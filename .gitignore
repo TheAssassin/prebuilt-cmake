@@ -1,0 +1,5 @@
+*.swp
+*.zip
+*.tar*
+cmake-v*.tar*
+cmake-v*/
