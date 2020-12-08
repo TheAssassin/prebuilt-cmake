@@ -28,10 +28,30 @@ jobs:
           name: Ubuntu xenial arm64v8
           path: cmake*.tar*
 
+jobs:
+  ubuntu_xenial-armhf:
+    name: Ubuntu xenial (arm64v8)
+    env:
+      DIST: ubuntu_xenial
+      ARCH: armhf
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up QEMU integration for Docker
+        run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+      - name: Build in Docker
+        run: bash -ex build.sh
+      - name: Archive artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: Ubuntu xenial armhf
+          path: cmake*.tar*
+
   upload:
     name: Create release and upload artifacts
     needs:
       - ubuntu_xenial-arm64v8
+      - ubuntu_xenial-armhf
     runs-on: ubuntu-latest
     steps:
       - name: Download artifacts
