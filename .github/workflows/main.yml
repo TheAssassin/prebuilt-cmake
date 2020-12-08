@@ -45,17 +45,16 @@ jobs:
     needs:
       - centos-7-x86_64
       - centos-7-i386
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     steps:
       - name: Download artifacts
         uses: actions/download-artifact@v2
       - name: Inspect directory after downloading artifacts
         run: ls -alFR
       - name: Create release and upload artifacts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-            wget https://github.com/probonopd/uploadtool/raw/master/upload.sh
-            chmod +x upload.sh
-            VERSION="$(ls **/cmake-v*.tar* -1 | head -n1 | cut -d- -f2- | rev | cut -d- -f3- | rev)"
-            echo "$VERSION"
-            export TRAVIS_TAG="$VERSION"
-            ./upload.sh **/cmake-v*.tar*
+            wget -q https://github.com/TheAssassin/pyuploadtool/releases/download/continuous/pyuploadtool-x86_64.AppImage
+            chmod +x pyuploadtool-x86_64.AppImage
+            ./pyuploadtool-x86_64.AppImage **/cmake-v*.tar*
