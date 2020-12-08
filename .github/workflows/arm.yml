@@ -86,7 +86,7 @@ jobs:
     name: Create release and upload artifacts
     needs:
       - ubuntu_xenial-arm64v8
-      - ubuntu_xenial-armhf
+      - ubuntu_xenial-arm32v7
     runs-on: ubuntu-latest
     steps:
       - name: Download artifacts
