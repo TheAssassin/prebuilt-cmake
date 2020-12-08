@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  centos-7-x86_64:
+  centos7-x86_64:
     name: CentOS 7 (x86_64)
     env:
       DIST: centos7
@@ -24,7 +24,7 @@ jobs:
           name: CentOS 7 x86_64
           path: cmake*.tar*
 
-  centos-7-i386:
+  centos7-i386:
     name: CentOS 7 (i386)
     env:
       DIST: centos7
@@ -40,12 +40,80 @@ jobs:
           name: CentOS 7 i386
           path: cmake*.tar*
 
+  ubuntu_xenial-x86_64:
+    name: Ubuntu xenial (x86_64)
+    env:
+      DIST: ubuntu_xenial
+      ARCH: x86_64
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build in Docker
+        run: bash -ex build.sh
+      - name: Archive artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: Ubuntu xenial x86_64
+          path: cmake*.tar*
+
+  ubuntu_xenial-i386:
+    name: Ubuntu xenial (i386)
+    env:
+      DIST: ubuntu_xenial
+      ARCH: i386
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build in Docker
+        run: bash -ex build.sh
+      - name: Archive artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: Ubuntu xenial i386
+          path: cmake*.tar*
+
+  debian_oldstable-x86_64:
+    name: Debian oldstable (x86_64)
+    env:
+      DIST: debian_oldstable
+      ARCH: x86_64
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build in Docker
+        run: bash -ex build.sh
+      - name: Archive artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: Debian oldstable x86_64
+          path: cmake*.tar*
+
+  debian_oldstable-i386:
+    name: Debian oldstable (i386)
+    env:
+      DIST: debian_oldstable
+      ARCH: i386
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build in Docker
+        run: bash -ex build.sh
+      - name: Archive artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: Debian oldstable i386
+          path: cmake*.tar*
+
   upload:
     name: Create release and upload artifacts
     needs:
-      - centos-7-x86_64
-      - centos-7-i386
-    runs-on: ubuntu-18.04
+      - centos7-x86_64
+      - centos7-i386
+      - ubuntu_xenial-x86_64
+      - ubuntu_xenial-i386
+      - debian_oldstable-x86_64
+      - debian_oldstable-i386
+    runs-on: ubuntu-latest
     steps:
       - name: Download artifacts
         uses: actions/download-artifact@v2
