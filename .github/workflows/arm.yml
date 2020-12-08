@@ -28,11 +28,11 @@ jobs:
           name: Ubuntu xenial arm64v8
           path: cmake*.tar*
 
-  ubuntu_xenial-armhf:
-    name: Ubuntu xenial (armhf)
+  ubuntu_xenial-arm32v7:
+    name: Ubuntu xenial (arm32v7)
     env:
       DIST: ubuntu_xenial
-      ARCH: armhf
+      ARCH: arm32v7
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -43,7 +43,7 @@ jobs:
       - name: Archive artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: Ubuntu xenial armhf
+          name: Ubuntu xenial arm32v7
           path: cmake*.tar*
 
   ubuntu_bionic-arm64v8:

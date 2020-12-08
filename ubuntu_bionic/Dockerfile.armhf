@@ -1,4 +1,4 @@
-FROM armhf/ubuntu:bionic
+FROM arm32v7/ubuntu:bionic
 
 ENV ARCH=armhf
 ENV DIST=ubuntu_bionic
