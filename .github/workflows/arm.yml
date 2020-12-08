@@ -28,7 +28,6 @@ jobs:
           name: Ubuntu xenial arm64v8
           path: cmake*.tar*
 
-jobs:
   ubuntu_xenial-armhf:
     name: Ubuntu xenial (arm64v8)
     env:
