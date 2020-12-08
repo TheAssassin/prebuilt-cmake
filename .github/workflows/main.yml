@@ -72,6 +72,38 @@ jobs:
           name: Ubuntu xenial i386
           path: cmake*.tar*
 
+  ubuntu_bionic-x86_64:
+    name: Ubuntu bionic (x86_64)
+    env:
+      DIST: ubuntu_bionic
+      ARCH: x86_64
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build in Docker
+        run: bash -ex build.sh
+      - name: Archive artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: Ubuntu bionic x86_64
+          path: cmake*.tar*
+
+  ubuntu_bionic-i386:
+    name: Ubuntu bionic (i386)
+    env:
+      DIST: ubuntu_bionic
+      ARCH: i386
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build in Docker
+        run: bash -ex build.sh
+      - name: Archive artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: Ubuntu bionic i386
+          path: cmake*.tar*
+
   debian_oldstable-x86_64:
     name: Debian oldstable (x86_64)
     env:
