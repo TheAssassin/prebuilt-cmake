@@ -1,5 +1,8 @@
 # Automated CMake builds on various distros
 
+![Main pipeline](https://github.com/TheAssassin/prebuilt-cmake/workflows/Main%20pipeline/badge.svg)
+![ARM pipeline](https://github.com/TheAssassin/prebuilt-cmake/workflows/ARM%20pipeline/badge.svg)
+
 This project generates builds of CMake on various distros for various architectures. It allows for using an up-to-date CMake in various distros.
 
 
