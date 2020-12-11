@@ -64,11 +64,11 @@ jobs:
           name: Ubuntu bionic arm64v8
           path: cmake*.tar*
 
-  ubuntu_bionic-armhf:
-    name: Ubuntu bionic (armhf)
+  ubuntu_bionic-arm32v7:
+    name: Ubuntu bionic (arm32v7)
     env:
       DIST: ubuntu_bionic
-      ARCH: armhf
+      ARCH: arm32v7
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -79,7 +79,7 @@ jobs:
       - name: Archive artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: Ubuntu bionic armhf
+          name: Ubuntu bionic arm32v7
           path: cmake*.tar*
 
   upload:
