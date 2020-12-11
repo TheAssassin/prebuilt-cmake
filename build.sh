@@ -8,6 +8,7 @@ fi
 set -e
 
 error() {
+    export TERM=xterm-256color
     tput setaf 1
     tput bold
     echo "Error:" "$@"
