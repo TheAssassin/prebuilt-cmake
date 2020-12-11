@@ -87,6 +87,8 @@ jobs:
     needs:
       - ubuntu_xenial-arm64v8
       - ubuntu_xenial-arm32v7
+      - ubuntu_bionic-arm64v8
+      - ubuntu_bionic-arm32v7
     runs-on: ubuntu-latest
     steps:
       - name: Download artifacts

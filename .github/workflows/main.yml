@@ -143,6 +143,8 @@ jobs:
       - centos7-i386
       - ubuntu_xenial-x86_64
       - ubuntu_xenial-i386
+      - ubuntu_bionic-x86_64
+      - ubuntu_bionic-i386
       - debian_oldstable-x86_64
       - debian_oldstable-i386
     runs-on: ubuntu-latest
