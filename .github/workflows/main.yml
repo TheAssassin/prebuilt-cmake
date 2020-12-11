@@ -8,145 +8,44 @@ on:
   workflow_dispatch:
 
 jobs:
-  centos7-x86_64:
-    name: CentOS 7 (x86_64)
-    env:
-      DIST: centos7
-      ARCH: x86_64
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Build in Docker
-        run: bash -ex build.sh
-      - name: Archive artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: CentOS 7 x86_64
-          path: cmake*.tar*
+  build:
+    strategy:
+      matrix:
+        ARCH: ['x86_64', 'i386']
+        DIST: ['centos7', 'ubuntu_xenial', 'ubuntu_bionic', 'debian_oldstable']
+        include:
+          - ARCH: 'arm64v8'
+            DIST: 'ubuntu_xenial'
+          - ARCH: 'arm64v8'
+            DIST: 'ubuntu_bionic'
+          - ARCH: 'arm32v7'
+            DIST: 'ubuntu_xenial'
+          - ARCH: 'arm32v7'
+            DIST: 'ubuntu_bionic'
 
-  centos7-i386:
-    name: CentOS 7 (i386)
+    name: Build ${{ matrix.DIST }}  (${{ matrix.ARCH }})
     env:
-      DIST: centos7
-      ARCH: i386
+      DIST: ${{ matrix.DIST }}
+      ARCH: ${{ matrix.ARCH }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Build in Docker
-        run: bash -ex build.sh
-      - name: Archive artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: CentOS 7 i386
-          path: cmake*.tar*
 
-  ubuntu_xenial-x86_64:
-    name: Ubuntu xenial (x86_64)
-    env:
-      DIST: ubuntu_xenial
-      ARCH: x86_64
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Build in Docker
-        run: bash -ex build.sh
-      - name: Archive artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: Ubuntu xenial x86_64
-          path: cmake*.tar*
+      - name: Set up QEMU integration for Docker
+        if: startsWith(matrix.ARCH, 'arm')
+        run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
 
-  ubuntu_xenial-i386:
-    name: Ubuntu xenial (i386)
-    env:
-      DIST: ubuntu_xenial
-      ARCH: i386
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
       - name: Build in Docker
         run: bash -ex build.sh
       - name: Archive artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: Ubuntu xenial i386
-          path: cmake*.tar*
-
-  ubuntu_bionic-x86_64:
-    name: Ubuntu bionic (x86_64)
-    env:
-      DIST: ubuntu_bionic
-      ARCH: x86_64
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Build in Docker
-        run: bash -ex build.sh
-      - name: Archive artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: Ubuntu bionic x86_64
-          path: cmake*.tar*
-
-  ubuntu_bionic-i386:
-    name: Ubuntu bionic (i386)
-    env:
-      DIST: ubuntu_bionic
-      ARCH: i386
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Build in Docker
-        run: bash -ex build.sh
-      - name: Archive artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: Ubuntu bionic i386
-          path: cmake*.tar*
-
-  debian_oldstable-x86_64:
-    name: Debian oldstable (x86_64)
-    env:
-      DIST: debian_oldstable
-      ARCH: x86_64
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Build in Docker
-        run: bash -ex build.sh
-      - name: Archive artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: Debian oldstable x86_64
-          path: cmake*.tar*
-
-  debian_oldstable-i386:
-    name: Debian oldstable (i386)
-    env:
-      DIST: debian_oldstable
-      ARCH: i386
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Build in Docker
-        run: bash -ex build.sh
-      - name: Archive artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: Debian oldstable i386
+          name: ${{ matrix.DIST }}-${{ matrix.ARCH }}.zip
           path: cmake*.tar*
 
   upload:
     name: Create release and upload artifacts
-    needs:
-      - centos7-x86_64
-      - centos7-i386
-      - ubuntu_xenial-x86_64
-      - ubuntu_xenial-i386
-      - ubuntu_bionic-x86_64
-      - ubuntu_bionic-i386
-      - debian_oldstable-x86_64
-      - debian_oldstable-i386
+    needs: [build]
     runs-on: ubuntu-latest
     steps:
       - name: Download artifacts
