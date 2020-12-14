@@ -1,7 +1,6 @@
 FROM i386/debian:oldstable
 
-ENV ARCH=i386
-ENV DIST=debian_oldstable
+ENV ARCH=i386 DIST=debian_oldstable
 
 SHELL ["/bin/bash", "-x", "-c"]
 

@@ -1,7 +1,6 @@
 FROM i386/ubuntu:xenial
 
-ENV ARCH=i386
-ENV DIST=ubuntu_xenial
+ENV ARCH=i386 DIST=ubuntu_xenial
 
 SHELL ["/bin/bash", "-x", "-c"]
 

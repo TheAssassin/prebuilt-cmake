@@ -1,7 +1,6 @@
 FROM i386/ubuntu:bionic
 
-ENV ARCH=i386
-ENV DIST=ubuntu_bionic
+ENV ARCH=i386 DIST=ubuntu_bionic
 
 SHELL ["/bin/bash", "-x", "-c"]
 

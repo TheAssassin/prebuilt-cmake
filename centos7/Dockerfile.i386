@@ -1,8 +1,7 @@
 FROM i386/centos:7
 
 SHELL ["/bin/bash", "-x", "-c"]
-ENV ARCH=i386
-ENV DIST=centos7
+ENV ARCH=i386 DIST=centos7
 
 # during Docker build, yum doesn't detect it's an i386 environment on x86_64 machines, and tries to install x86_64 packages, which can't work
 # this little command fixes this

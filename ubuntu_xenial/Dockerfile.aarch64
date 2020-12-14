@@ -1,7 +1,6 @@
-FROM arm32v7/ubuntu:bionic
+FROM arm64v8/ubuntu:xenial
 
-ENV ARCH=armhf
-ENV DIST=ubuntu_bionic
+ENV ARCH=aarch64 DIST=ubuntu_xenial
 
 SHELL ["/bin/bash", "-x", "-c"]
 

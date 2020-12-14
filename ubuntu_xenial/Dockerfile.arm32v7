@@ -1,7 +1,6 @@
-FROM armhf/ubuntu:xenial
+FROM arm32v7/ubuntu:xenial
 
-ENV ARCH=armhf
-ENV DIST=ubuntu_xenial
+ENV ARCH=armhf DIST=ubuntu_xenial
 
 SHELL ["/bin/bash", "-x", "-c"]
 
