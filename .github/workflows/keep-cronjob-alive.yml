@@ -21,4 +21,4 @@ jobs:
           git config user.email "nope@nope.nope"
           git commit -m "Keep cronjob alive"
           git push -u origin tmp/keep-cronjob-alive
-
+          git push origin :tmp/keep-cronjob-alive
