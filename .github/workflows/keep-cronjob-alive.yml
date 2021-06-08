@@ -1,0 +1,24 @@
+name: Keep cronjob alive
+
+on:
+  schedule:
+    - cron: '0 3 1 * *'
+  workflow_dispatch:
+
+jobs:
+  commit:
+    name:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name:
+        run: |
+          git checkout -b tmp/keep-cronjob-alive || true
+          git checkout tmp/keep-cronjob-alive
+          date > .keep-cronjob-alive
+          git add .keep-cronjob-alive
+          git config user.name "nope"
+          git config user.email "nope@nope.nope"
+          git commit -m "Keep cronjob alive"
+          git push -u origin tmp/keep-cronjob-alive
+
