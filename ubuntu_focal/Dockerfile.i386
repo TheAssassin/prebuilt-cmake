@@ -1,6 +1,6 @@
-FROM arm64v8/ubuntu:xenial
+FROM i386/ubuntu:focal
 
-ENV ARCH=aarch64 DIST=ubuntu_xenial
+ENV ARCH=i386 DIST=ubuntu_focal
 
 SHELL ["/bin/bash", "-x", "-c"]
 

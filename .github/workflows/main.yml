@@ -12,14 +12,14 @@ jobs:
     strategy:
       matrix:
         ARCH: ['x86_64', 'i386']
-        DIST: ['centos7', 'ubuntu_xenial', 'ubuntu_bionic', 'debian_oldstable']
+        DIST: ['centos7', 'ubuntu_bionic', 'ubuntu_focal', 'debian_oldstable']
         include:
           - ARCH: 'aarch64'
-            DIST: 'ubuntu_xenial'
+            DIST: 'ubuntu_focal'
           - ARCH: 'aarch64'
             DIST: 'ubuntu_bionic'
           - ARCH: 'armhf'
-            DIST: 'ubuntu_xenial'
+            DIST: 'ubuntu_focal'
           - ARCH: 'armhf'
             DIST: 'ubuntu_bionic'
 
