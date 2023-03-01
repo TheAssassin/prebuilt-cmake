@@ -11,20 +11,30 @@ jobs:
   build:
     strategy:
       matrix:
-        # i386 was dropped in most recent distros
-        ARCH: ['x86_64', 'i386']
-        DIST: ['centos7', 'ubuntu_bionic', 'debian_oldstable']
         include:
-          - ARCH: 'armhf'
-            DIST: 'ubuntu_bionic'
-          - ARCH: 'aarch64'
-            DIST: 'ubuntu_bionic'
+          - ARCH: 'x86_64'
+            DIST: 'centos7'
+          - ARCH: 'i386'
+            DIST: 'centos7'
+
+          - ARCH: 'x86_64'
+            DIST: 'debian_oldstable'
+          - ARCH: 'i386'
+            DIST: 'debian_oldstable'
+
           - ARCH: 'x86_64'
             DIST: 'ubuntu_focal'
           - ARCH: 'aarch64'
             DIST: 'ubuntu_focal'
           - ARCH: 'armhf'
             DIST: 'ubuntu_focal'
+
+          - ARCH: 'x86_64'
+            DIST: 'ubuntu_jammy'
+          - ARCH: 'aarch64'
+            DIST: 'ubuntu_jammy'
+          - ARCH: 'armhf'
+            DIST: 'ubuntu_jammy'
 
     name: Build ${{ matrix.DIST }}  (${{ matrix.ARCH }})
     env:
