@@ -68,7 +68,7 @@ jobs:
       ARCH: ${{ matrix.ARCH }}
       DOCKER_ARCH: ${{ matrix.DOCKER_ARCH }}
       DIST: ${{ matrix.DIST }}
-      ARCH: ${{ matrix.ARCH }}
+      RELEASE: ${{ matrix.RELEASE }}
 
     name: Build ARCH=${{ matrix.ARCH }} DIST=${{ matrix.DIST }} RELEASE=${{ matrix.RELEASE }}
 
