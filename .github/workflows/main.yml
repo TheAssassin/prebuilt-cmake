@@ -15,7 +15,7 @@ jobs:
       matrix:
         include:
           - ARCH:        'x86_64'
-            DOCKER_ARCH: 'x86_64'
+            DOCKER_ARCH: 'amd64'
             DIST:        'centos'
             RELEASE:     '7'
           - ARCH:        'i386'
@@ -24,7 +24,7 @@ jobs:
             RELEASE:     '7'
 
           - ARCH:        'x86_64'
-            DOCKER_ARCH: 'x86_64'
+            DOCKER_ARCH: 'amd64'
             DIST:        'debian'
             RELEASE:     'bullseye'
           - ARCH:        'i386'
@@ -41,7 +41,7 @@ jobs:
             RELEASE:     'bullseye'
 
           - ARCH:        'x86_64'
-            DOCKER_ARCH: 'x86_64'
+            DOCKER_ARCH: 'amd64'
             DIST:        'focal'
             RELEASE:     'bullseye'
           - ARCH:        'aarch64'
@@ -54,7 +54,7 @@ jobs:
             RELEASE:     'focal'
 
           - ARCH:        'x86_64'
-            DOCKER_ARCH: 'x86_64'
+            DOCKER_ARCH: 'amd64'
             DIST:        'ubuntu'
             RELEASE:     'jammy'
           - ARCH:        'aarch64'
