@@ -12,34 +12,66 @@ jobs:
     strategy:
       matrix:
         include:
-          - ARCH: 'x86_64'
-            DIST: 'centos7'
-          - ARCH: 'i386'
-            DIST: 'centos7'
+          - ARCH:        'x86_64'
+            DOCKER_ARCH: 'x86_64'
+            DIST:        'centos'
+            RELEASE:     '7'
+          - ARCH:        'i386'
+            DOCKER_ARCH: 'i386'
+            DIST:        'centos'
+            RELEASE:     '7'
 
-          - ARCH: 'x86_64'
-            DIST: 'debian_oldstable'
-          - ARCH: 'i386'
-            DIST: 'debian_oldstable'
+          - ARCH:        'x86_64'
+            DOCKER_ARCH: 'x86_64'
+            DIST:        'debian'
+            RELEASE:     'bullseye'
+          - ARCH:        'i386'
+            DOCKER_ARCH: 'i386'
+            DIST:        'debian'
+            RELEASE:     'bullseye'
+          - ARCH:        'aarch64'
+            DOCKER_ARCH: 'arm64v8'
+            DIST:        'debian'
+            RELEASE:     'bullseye'
+          - ARCH:        'armhf'
+            DOCKER_ARCH: 'arm32v7'
+            DIST:        'debian'
+            RELEASE:     'bullseye'
 
-          - ARCH: 'x86_64'
-            DIST: 'ubuntu_focal'
-          - ARCH: 'aarch64'
-            DIST: 'ubuntu_focal'
-          - ARCH: 'armhf'
-            DIST: 'ubuntu_focal'
+          - ARCH:        'x86_64'
+            DOCKER_ARCH: 'x86_64'
+            DIST:        'focal'
+            RELEASE:     'bullseye'
+          - ARCH:        'aarch64'
+            DOCKER_ARCH: 'arm64v8'
+            DIST:        'ubuntu'
+            RELEASE:     'focal'
+          - ARCH:        'armhf'
+            DOCKER_ARCH: 'arm32v7'
+            DIST:        'ubuntu'
+            RELEASE:     'focal'
 
-          - ARCH: 'x86_64'
-            DIST: 'ubuntu_jammy'
-          - ARCH: 'aarch64'
-            DIST: 'ubuntu_jammy'
-          - ARCH: 'armhf'
-            DIST: 'ubuntu_jammy'
+          - ARCH:        'x86_64'
+            DOCKER_ARCH: 'x86_64'
+            DIST:        'ubuntu'
+            RELEASE:     'jammy'
+          - ARCH:        'aarch64'
+            DOCKER_ARCH: 'arm64v8'
+            DIST:        'ubuntu'
+            RELEASE:     'jammy'
+          - ARCH:        'armhf'
+            DOCKER_ARCH: 'arm32v7'
+            DIST:        'ubuntu'
+            RELEASE:     'jammy'
 
-    name: Build ${{ matrix.DIST }}  (${{ matrix.ARCH }})
     env:
+      ARCH: ${{ matrix.ARCH }}
+      DOCKER_ARCH: ${{ matrix.DOCKER_ARCH }}
       DIST: ${{ matrix.DIST }}
       ARCH: ${{ matrix.ARCH }}
+
+    name: Build ARCH=${{ matrix.ARCH }} DIST=${{ matrix.DIST }} RELEASE=${{ matrix.RELEASE }}
+
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -49,10 +81,11 @@ jobs:
 
       - name: Build in Docker
         run: bash -ex build.sh
+
       - name: Archive artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ matrix.DIST }}-${{ matrix.ARCH }}.zip
+          name: ${{ matrix.DIST }}_${{ matrix.RELEASE }}-${{ matrix.ARCH }}.zip
           path: cmake*.tar*
 
   upload:

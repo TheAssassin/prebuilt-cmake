@@ -1,6 +1,12 @@
-FROM arm64v8/ubuntu:bionic
+ARG DOCKER_ARCH
+ARG DIST
+ARG RELEASE
 
-ENV ARCH=aarch64 DIST=ubuntu_bionic
+FROM ${DOCKER_ARCH}/${DIST}:${RELEASE}
+
+ARG ARCH
+ARG DIST
+ENV ARCH=${ARCH} DIST=${DIST}
 
 SHELL ["/bin/bash", "-x", "-c"]
 
@@ -9,9 +15,4 @@ RUN apt-get update && \
         libfuse2 libtool autoconf automake zlib1g-dev libjpeg-dev libpng-dev \
         nano git libssl-dev
 
-# keep user ID in sync in and outside Docker image
-ARG UID
-RUN adduser --uid "$UID" --gecos "" build
-
-USER build
 CMD ["bash"]
