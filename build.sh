@@ -44,7 +44,12 @@ if [ ! -f "$dockerfile" ]; then
 fi
 
 # build image to cache dependencies
-docker build --platform "$ARCH" -t "$image" -f "$dockerfile" "$DIST"
+docker build --platform "$ARCH" -t "$image" -f "$dockerfile" \
+    --build-arg ARCH="$ARCH" \
+    --build-arg DOCKER_ARCH="$DOCKER_ARCH" \
+    --build-arg DIST="$DIST" \
+    --build-arg RELEASE="$RELEASE" \
+    "$DIST"
 
 # run build inside this image
 EXTRA_ARGS=()
