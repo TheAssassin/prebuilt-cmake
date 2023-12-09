@@ -36,7 +36,7 @@ cd CMake
 # check out latest tag
 git checkout "$(git rev-list --tags --max-count=1)"
 
-label=cmake-$(git describe --tags)-"$DIST"-"$ARCH"
+label=cmake-$(git describe --tags)-"$DIST"-"$RELEASE"-"$ARCH"
 ./configure --no-system-libs --prefix=/"$label" --no-qt-gui --parallel="$(nproc)"
 
 make -j"$(nproc)"
