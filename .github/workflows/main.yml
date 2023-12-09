@@ -42,8 +42,8 @@ jobs:
 
           - ARCH:        'x86_64'
             DOCKER_ARCH: 'amd64'
-            DIST:        'focal'
-            RELEASE:     'bullseye'
+            DIST:        'ubuntu'
+            RELEASE:     'focal'
           - ARCH:        'aarch64'
             DOCKER_ARCH: 'arm64v8'
             DIST:        'ubuntu'
