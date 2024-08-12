@@ -2,8 +2,13 @@
 
 set -euxo pipefail
 
-if [[ "$ARCH" == "" ]] || [[ "$DOCKER_ARCH" == "" ]] || [[ "$DIST" == "" ]] || [[ "$RELEASE" == "" ]]; then
-    echo "Usage: env ARCH=... DOCKER_ARCH=... DIST=... RELEASE=... bash $0"
+# DOCKER_PLATFORM: decides runtime architecture of the images
+# ARCH: the architecture to use to distingiuish between the artifacts
+# DIST: distro image name (must match subdirectories of this repository)
+# RELEASE: image version to use as a base
+if [[ "$DOCKER_PLATFORM" == "" ]] || [[ "$ARCH" == "" ]] || [[ "$DIST" == "" ]] || [[ "$RELEASE" == "" ]]; then
+    echo "Usage: env DOCKER_PLATFORM=... ARCH=... DIST=... RELEASE=... bash $0"
+    echo "Supported platforms (typically): linux/amd64, linux/386 (rarely), linux/arm64(/v8), linux/arm(/v7)"
     exit 1
 fi
 
@@ -18,7 +23,7 @@ error() {
 cd "$(readlink -f "$(dirname "${BASH_SOURCE[0]}")")"
 
 # needed to keep user ID in and outside Docker in sync to be able to write to workspace directory
-image=cmake-build/"$DIST"_"$RELEASE":"$ARCH"
+image=cmake-build/"$DIST"_"$RELEASE"
 dockerfile="$DIST"/Dockerfile
 
 if [ ! -d "$DIST" ]; then
@@ -44,9 +49,8 @@ if [ ! -f "$dockerfile" ]; then
 fi
 
 # build image to cache dependencies
-docker build --platform "$ARCH" -t "$image" -f "$dockerfile" \
+docker build --platform "$DOCKER_PLATFORM" -t "$image" -f "$dockerfile" \
     --build-arg ARCH="$ARCH" \
-    --build-arg DOCKER_ARCH="$DOCKER_ARCH" \
     --build-arg DIST="$DIST" \
     --build-arg RELEASE="$RELEASE" \
     "$DIST"
@@ -56,7 +60,7 @@ EXTRA_ARGS=()
 [ -t 1 ] && EXTRA_ARGS+=("-t")
 docker run \
     --user "$(id -u)" \
-    --platform "$ARCH" \
+    --platform "$DOCKER_PLATFORM" \
     --rm \
     -i \
     "${EXTRA_ARGS[@]}" \
